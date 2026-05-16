@@ -1,5 +1,9 @@
 # graphql-api-gateway
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-green.svg)](https://nodejs.org/)
+[![GraphQL](https://img.shields.io/badge/GraphQL-Apollo-e10098.svg)](https://www.apollographql.com/)
+
 Built this to replace a mess of REST endpoints with a clean GraphQL layer. Pushing the schema and resolver logic here.
 
 It's a GraphQL API gateway that sits in front of 5 downstream microservices (Users, Orders, Products, Inventory, Notifications). Before this, the frontend was making 4 to 5 separate REST calls to build a single page, which was slow and wasteful.
