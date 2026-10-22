@@ -1,0 +1,60 @@
+{
+  "repo": "graphql-api-gateway",
+  "downstream": "five local in-process stand ins with call counters and a 5 ms simulated hop; not real microservices",
+  "n_plus_one_check": {
+    "query": "10 users, each with orders and product names",
+    "calls_without_loader": {
+      "users.list_users": 1,
+      "orders.orders_for_user": 10,
+      "products.get_product": 20
+    },
+    "calls_total_without_loader": 31,
+    "calls_with_loader": {
+      "users.list_users": 1,
+      "orders.orders_for_users_BATCH": 1,
+      "products.products_by_ids_BATCH": 1
+    },
+    "calls_total_with_loader": 3
+  },
+  "root_fields_resolved": {
+    "user": true,
+    "users": 10,
+    "order": true,
+    "orders": 20,
+    "product": true,
+    "products": 4,
+    "inventory": true,
+    "notifications": 2
+  },
+  "product_cache": {
+    "kind": "in-memory TTL cache in the gateway process (not Redis)",
+    "ttl_seconds": 60,
+    "repeated_product_queries": 20,
+    "hits": 19,
+    "misses": 1
+  },
+  "page_query_latency": {
+    "with_loader": {
+      "mean_ms": 14.34,
+      "min_ms": 13.09,
+      "max_ms": 29.94,
+      "runs": 25
+    },
+    "without_loader": {
+      "mean_ms": 15.0,
+      "min_ms": 13.12,
+      "max_ms": 24.03,
+      "runs": 25
+    }
+  },
+  "http_smoke_test": {
+    "product": {
+      "name": "Wool Socks",
+      "inventory": {
+        "stock": 26
+      }
+    }
+  },
+  "note": "Latency includes a 5 ms simulated downstream hop per service call, so read it as relative (loader versus no loader on identical conditions), not as a production response time. The old README claimed 320 ms down to 45 ms with no measurement anywhere; no such comparison exists for this code either, and none is claimed.",
+  "all_checks_passed": true
+}
